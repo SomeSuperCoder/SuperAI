@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"io"
-	"log"
 	"os"
 
+	log "github.com/sirupsen/logrus"
 	openrouter "github.com/revrost/go-openrouter"
 )
 
@@ -25,14 +25,14 @@ func Prompt(model string, channel chan string, messages []openrouter.ChatComplet
 	)
 
 	if err != nil {
-		log.Panicln(err.Error())
+		log.Fatal(err.Error())
 	}
 
 	for {
 		response, err := stream.Recv()
 
 		if err != nil && err != io.EOF {
-			log.Panicln(err.Error())
+			log.Fatal(err.Error())
 		}
 
 		if errors.Is(err, io.EOF) {

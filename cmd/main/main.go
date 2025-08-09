@@ -1,12 +1,25 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+
 	"github.com/SomeSuperCoder/superai/internal/bot"
 )
 
 func main() {
 	var master bot.Bot
 
-	master.Pipeline("How many a's are there in `98789saduhuhuauhuhuhudsahuhuaauhudsaaahuhudsauhuhu`")
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print(" >> ")
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+
+	var result = master.Pipeline(input)
+	fmt.Println("==============================================")
+	fmt.Println(result)
 }
 

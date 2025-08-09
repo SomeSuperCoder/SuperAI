@@ -31,10 +31,14 @@ type IncomingMessage struct {
 }
 
 type Agent struct {
+	// Based on filenames
 	Identificator string
+	// Parsed data
 	Description string `yaml:"description"`
 	Prompt string `yaml:"prompt"`
+	// Defined at runtime
 	HistorySlice []openrouter.ChatCompletionMessage
+	Live bool
 }
 
 func (a Agent) Query(wg *sync.WaitGroup, results chan AgentResult) string {
@@ -46,7 +50,6 @@ func (a Agent) Query(wg *sync.WaitGroup, results chan AgentResult) string {
 	var builder strings.Builder
 
 	for part := range responseChannel {
-		// log.Info(fmt.Sprintf("Data from <%v>", a.Identificator))
 		builder.WriteString(part)
 	}
 
@@ -58,8 +61,6 @@ func (a Agent) Query(wg *sync.WaitGroup, results chan AgentResult) string {
 	result.Identificator = a.Identificator
 
 	results <- result
-
-	log.Info(fmt.Sprintf("%v: %v", a.Identificator, result.Response))
 
 	return final
 }
@@ -90,6 +91,7 @@ func loadAgents() map[string]Agent {
 		}
 
 		agent.Identificator = entry.Name()
+		agent.Live = true
 
 		result[agent.Identificator] = agent
 	}

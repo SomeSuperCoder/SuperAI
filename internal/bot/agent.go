@@ -13,19 +13,20 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type AgentResoponse struct {
-	Id string
-	Text string
-}
-
 type AgentResult struct {
+	Identificator string
 	Response string `yaml:"response"`
-	Messages []AgentMessage `yaml:"messages"`
+	Messages []OutgoingMessage `yaml:"messages"`
 	Continue bool `yaml:"continue"`
 }
 
-type AgentMessage struct {
+type OutgoingMessage struct {
 	To string
+	Content string
+}
+
+type IncomingMessage struct {
+	From string
 	Content string
 }
 
@@ -33,37 +34,44 @@ type Agent struct {
 	Identificator string
 	Description string `yaml:"description"`
 	Prompt string `yaml:"prompt"`
+	HistorySlice []openrouter.ChatCompletionMessage
 }
 
-func (a Agent) Query(system openrouter.ChatCompletionMessage, messages []openrouter.ChatCompletionMessage, wg *sync.WaitGroup, responses chan AgentResoponse) string {
+func (a Agent) Query(wg *sync.WaitGroup, results chan AgentResult) string {
 	defer wg.Done()
 
 	var responseChannel = make(chan string)
-	go util.Prompt("moonshotai/kimi-k2:free", responseChannel, append([]openrouter.ChatCompletionMessage{system}, messages...))
+	go util.Prompt("moonshotai/kimi-k2:free", responseChannel, a.HistorySlice)
 
 	var builder strings.Builder
 
 	for part := range responseChannel {
-		log.Info(fmt.Sprintf("Data from <%v>", a.Identificator))
+		// log.Info(fmt.Sprintf("Data from <%v>", a.Identificator))
 		builder.WriteString(part)
 	}
 
 	var final = builder.String()
 
-	responses <- AgentResoponse{a.Identificator, final}
+	// Parsing
+	var result AgentResult
+	yaml.Unmarshal([]byte(final), &result)
+	result.Identificator = a.Identificator
 
-	log.Info(fmt.Sprintf("Final response from %v", a.Identificator))
+	results <- result
+
+	log.Info(fmt.Sprintf("%v: %v", a.Identificator, result.Response))
+
 	return final
 }
 
-func loadAgents() []Agent {
+func loadAgents() map[string]Agent {
 	entries, err := os.ReadDir("agents")
 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
- 	var result = make([]Agent, 0, len(entries))
+	var result = make(map[string]Agent)
 
 	for _, entry := range entries {
 		log.Info("Loading agent: " + entry.Name() + "...")
@@ -83,18 +91,21 @@ func loadAgents() []Agent {
 
 		agent.Identificator = entry.Name()
 
-		result = append(result, agent)
+		result[agent.Identificator] = agent
 	}
 
 	return result
 }
 
-func agentsSummary(agents []Agent, exculde string) string {
+func agentsSummary(agents map[string]Agent, exculde string) string {
 	var builder strings.Builder
 
-	for i, agent := range agents {
+	var i = 0
+
+	for _, agent := range agents {
 		if agent.Identificator != exculde {
-			builder.WriteString(fmt.Sprintf("%v) ID: %v ; Description: %v\n", i+1, agent.Identificator, agent.Description))
+			builder.WriteString(fmt.Sprintf("%v) ID: %v ; Description: %v\n", i + 1, agent.Identificator, agent.Description))
+			i++
 		}
 	}
 

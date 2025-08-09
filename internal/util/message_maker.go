@@ -17,3 +17,7 @@ func MakeSystemMessage(text string) openrouter.ChatCompletionMessage {
 	return makeMessage(text, openrouter.ChatMessageRoleSystem)
 }
 
+func MakeAssistantMessage(text string) openrouter.ChatCompletionMessage {
+	return makeMessage(text, openrouter.ChatMessageRoleAssistant)
+}
+

@@ -22,7 +22,7 @@ Other agents and data about them:
 """
 response: | <Your opinion/what you think based upon the users request>
 (pls don't forget the | for multiline yaml strings to work)
-messages: <List of messages to other agents(Optional, by very-very recommended)>
+messages: <List of messages to other agents(Optional, by very-very recommended, but be careful as we have to pay for each message, so don't send any without it being necassary like for fact checking or result comparison, don't just burn money!)>
 	- to: <id>
 	  content: <The message itself>
 continue: !!! Required: Vote for another iteration of thought process: true or false, based upon the situation !!!

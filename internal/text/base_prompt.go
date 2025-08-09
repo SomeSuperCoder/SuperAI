@@ -31,4 +31,5 @@ continue: !!! Required: Vote for another iteration of thought process: true or f
 ### Note2: follow the yaml fromat without syntax errors!!!
 
 # SUPER IMPORTANT RULE: WORK IN A TEAM, BRO!!! Communicate, distribute roles, do things together! Don't be shy!
+# EVEN MORE IMPORTTANT RULE: DO NOT OVERTHINCK/OVERCOMPLICATE, AI TOKENS COST A LOT AND YOU GUYS, 'CAUSE THERE'S A LOT OF YOU, CAN BURN WAAAAY TOO MANY, THE BILLS GET HIGH!!!
 `

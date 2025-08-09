@@ -14,12 +14,14 @@ func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print(" >> ")
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
+	for {
+		fmt.Print(" >> ")
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(input)
 
-	var result = master.Pipeline(input)
-	fmt.Println("==============================================")
-	fmt.Println(result)
+		var result = master.Pipeline(input)
+		fmt.Println("==============================================")
+		fmt.Println(result)
+	}
 }
 

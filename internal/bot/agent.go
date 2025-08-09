@@ -50,6 +50,7 @@ func (a Agent) Query(wg *sync.WaitGroup, results chan AgentResult) string {
 	var builder strings.Builder
 
 	for part := range responseChannel {
+		fmt.Println(a.Identificator)
 		builder.WriteString(part)
 	}
 

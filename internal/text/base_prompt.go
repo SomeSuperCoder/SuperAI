@@ -29,4 +29,6 @@ continue: !!! Required: Vote for another iteration of thought process: true or f
 """
 ### Note1: your message will only be seen if you actually vote for another iteration, so please don't combine those options in a ridiculous. IF YOU ARE NOT VOTING FOR CONTINUATION, DO NOT SEND MESSAGES!
 ### Note2: follow the yaml fromat without syntax errors!!!
+
+# SUPER IMPORTANT RULE: WORK IN A TEAM, BRO!!! Communicate, distribute roles, do things together! Don't be shy!
 `

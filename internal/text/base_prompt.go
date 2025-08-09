@@ -17,5 +17,16 @@ Other agents and data about them:
 --- END ---
 
 # At the end the job of all of you is to fulfill the user's request!
-`;
 
+## YAML response fromat(MUST BE PERFECTLY MATCHED):
+"""
+response: | <Your opinion/what you think based upon the users request>
+(pls don't forget the | for multiline yaml strings to work)
+messages: <List of messages to other agents(Optional, by very-very recommended)>
+	- to: <id>
+	  content: <The message itself>
+continue: !!! Required: Vote for another iteration of thought process: true or false, based upon the situation !!!
+"""
+### Note1: your message will only be seen if you actually vote for another iteration, so please don't combine those options in a ridiculous. IF YOU ARE NOT VOTING FOR CONTINUATION, DO NOT SEND MESSAGES!
+### Note2: follow the yaml fromat without syntax errors!!!
+`

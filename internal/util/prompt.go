@@ -36,8 +36,8 @@ func Prompt(model string, channel chan string, messages []openrouter.ChatComplet
 		}
 
 		if errors.Is(err, io.EOF) {
-			stream.Close()
 			close(channel)
+			stream.Close()
 			return
 		}
 

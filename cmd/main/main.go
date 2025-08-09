@@ -11,5 +11,6 @@ func main() {
 
 	var master bot.Bot
 
-	master.Pipeline("Is ArchLinux worth it?")
+	master.Pipeline("How many r's are there in 'ausdgruaysdyasgdrasdygugrrasdygr123'?")
 }
+

@@ -120,7 +120,7 @@ func (b Bot) pipelineCycle() {
 			var target = b.Agents[receiver]
 			target.Live = false
 			b.Agents[receiver] = target
-			return
+			continue
 		}
 
 		// Parse messages
@@ -134,6 +134,7 @@ func (b Bot) pipelineCycle() {
 		// Send messages and move 'em to the new team
 		var target = b.Agents[receiver]
 		target.HistorySlice = append(b.Agents[receiver].HistorySlice, util.MakeUserMessage(builder.String()))
+		target.Live = true
 		b.Agents[receiver] = target
 		log.Info(fmt.Sprintf("Moving %v to the next interation", target.Identificator))
 
